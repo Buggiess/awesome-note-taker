@@ -52,3 +52,4 @@ app.delete("/api/notes/:id", (req, res) => {
   updatedNotesDB(removeNote, req.params.id);
   res.send("delete successful");
 });
+
