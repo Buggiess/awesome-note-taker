@@ -42,14 +42,27 @@ app.post("/api/notes", (req, res) => {
       text: req.body.text,
     };
 
-    updatedNotesDB(addNote, newNote);
+    updatedNotes(addNote, newNote);
     res.send("add successful");
   }
 });
 
 app.delete("/api/notes/:id", (req, res) => {
   console.log("DELETE note with id: " + req.params.id);
-  updatedNotesDB(removeNote, req.params.id);
+  updatedNotes(removeNote, req.params.id);
   res.send("delete successful");
 });
 
+const updatedNotes = (updateData, param) => {
+    const data = fs.readFileSync('./db/db.json');
+    const notes = JSON.parse(data);
+
+    updateData(notes, param);
+
+    fs.writeFileSync('./db/db.json', JSON.stringify(notes));
+};
+
+//PORT
+app.listen(PORT, () => {
+    console.log(`App is listening at http://localhost:${PORT}`);
+});
